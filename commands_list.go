@@ -1,7 +1,7 @@
 // Copyright 2018 The Redix Authors. All rights reserved.
 // Use of this source code is governed by a Apache 2.0
 // license that can be found in the LICENSE file.
-package main
+package redix
 
 import (
 	"encoding/hex"
@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alash3al/redix/kvstore"
+	"github.com/soopsio/redix/kvstore"
 )
 
 // lpushCommand - LPUSH <LIST> <val1> [<val2> ...]

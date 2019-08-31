@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/alash3al/redix/kvstore"
 	"github.com/dgraph-io/badger"
 	"github.com/dgraph-io/badger/options"
+	"github.com/soopsio/redix/kvstore"
 )
 
 // BadgerDB - represents a badger db implementation
@@ -24,8 +24,7 @@ type BadgerDB struct {
 
 // OpenBadger - Opens the specified path
 func OpenBadger(path string) (*BadgerDB, error) {
-	opts := badger.DefaultOptions
-
+	opts := badger.DefaultOptions(path)
 	opts.Dir = path
 	opts.ValueDir = path
 	opts.Truncate = true
@@ -105,7 +104,9 @@ func (db *BadgerDB) Set(k, v string, ttl int) error {
 		if ttl < 1 {
 			err = txn.Set([]byte(k), []byte(v))
 		} else {
-			err = txn.SetWithTTL([]byte(k), []byte(v), time.Duration(ttl)*time.Millisecond)
+			e := badger.NewEntry([]byte(k), []byte(v))
+			e.ExpiresAt = uint64(time.Now().Add(time.Duration(ttl) * time.Millisecond).Unix())
+			err = txn.SetEntry(e)
 		}
 
 		return err

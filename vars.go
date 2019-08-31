@@ -1,10 +1,9 @@
 // Copyright 2018 The Redix Authors. All rights reserved.
 // Use of this source code is governed by a Apache 2.0
 // license that can be found in the LICENSE file.
-package main
+package redix
 
 import (
-	"flag"
 	"net/url"
 	"runtime"
 	"sync"
@@ -14,14 +13,14 @@ import (
 )
 
 var (
-	flagRESPListenAddr = flag.String("resp-addr", ":6380", "the address of resp server")
-	flagHTTPListenAddr = flag.String("http-addr", ":7090", "the address of the http server")
-	flagStorageDir     = flag.String("storage", "./redix-data", "the storage directory")
-	flagEngine         = flag.String("engine", "leveldb", "the storage engine to be used")
-	flagEngineOptions  = flag.String("engine-options", "", "options related to used engine in the url query format, i.e (opt1=val2&opt2=val2)")
-	flagWorkers        = flag.Int("workers", runtime.NumCPU(), "the default workers number")
-	flagVerbose        = flag.Bool("verbose", false, "verbose or not")
-	flagACK            = flag.Bool("ack", true, "acknowledge write or return immediately")
+	RESPListenAddr = ":6380"
+	HTTPListenAddr = ":7090"
+	StorageDir     = "./redix-data"
+	Engine         = "leveldb"
+	EngineOptions  = ""
+	Workers        = runtime.NumCPU()
+	Verbose        = true
+	ACK            = true
 )
 
 var (

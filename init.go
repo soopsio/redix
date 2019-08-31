@@ -1,12 +1,10 @@
 // Copyright 2018 The Redix Authors. All rights reserved.
 // Use of this source code is governed by a Apache 2.0
 // license that can be found in the LICENSE file.
-package main
+package redix
 
 import (
-	"flag"
 	"fmt"
-	"io/ioutil"
 	"net/url"
 	"os"
 	"runtime"
@@ -15,22 +13,12 @@ import (
 	"github.com/alash3al/go-color"
 	"github.com/alash3al/go-pubsub"
 	"github.com/bwmarrin/snowflake"
-	"github.com/dgraph-io/badger"
-	"github.com/sirupsen/logrus"
 )
 
 func init() {
-	flag.Parse()
+	runtime.GOMAXPROCS(Workers)
 
-	runtime.GOMAXPROCS(*flagWorkers)
-
-	if !*flagVerbose {
-		logger := logrus.New()
-		logger.SetOutput(ioutil.Discard)
-		badger.SetLogger(logger)
-	}
-
-	if !supportedEngines[*flagEngine] {
+	if !supportedEngines[Engine] {
 		fmt.Println(color.RedString("Invalid strorage engine specified"))
 		os.Exit(0)
 		return
@@ -41,7 +29,7 @@ func init() {
 	webhooks = new(sync.Map)
 	websockets = new(sync.Map)
 	engineOptions = (func() url.Values {
-		opts, _ := url.ParseQuery(*flagEngineOptions)
+		opts, _ := url.ParseQuery(EngineOptions)
 		return opts
 	})()
 
@@ -59,7 +47,7 @@ func init() {
 
 // // initDBs - initialize databases from the disk for faster access
 // func initDBs() {
-// 	os.MkdirAll(*flagStorageDir, 0755)
+// 	os.MkdirAll(StorageDir, 0755)
 
 // 	dirs, _ := ioutil.ReadDir(get)
 

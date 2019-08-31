@@ -1,7 +1,7 @@
 // Copyright 2018 The Redix Authors. All rights reserved.
 // Use of this source code is governed by a Apache 2.0
 // license that can be found in the LICENSE file.
-package main
+package redix
 
 import (
 	"net/http"
@@ -22,7 +22,7 @@ func initHTTPServer() error {
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 9}))
 	e.Use(middleware.Recover())
 
-	if *flagVerbose {
+	if Verbose {
 		e.Use(middleware.Logger())
 	}
 
@@ -90,5 +90,5 @@ func initHTTPServer() error {
 		})
 	})
 
-	return e.Start(*flagHTTPListenAddr)
+	return e.Start(HTTPListenAddr)
 }

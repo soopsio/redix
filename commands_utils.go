@@ -1,7 +1,7 @@
 // Copyright 2018 The Redix Authors. All rights reserved.
 // Use of this source code is governed by a Apache 2.0
 // license that can be found in the LICENSE file.
-package main
+package redix
 
 import (
 	"crypto/md5"
@@ -148,12 +148,12 @@ func gcCommand(c Context) {
 func infoCommand(c Context) {
 	info := map[string]string{
 		"version":            redixVersion,
-		"database":           *flagEngine,
+		"database":           Engine,
 		"database_size":      strconv.Itoa(int(c.db.Size())),
-		"database_directory": *flagStorageDir,
-		"redis_port":         *flagRESPListenAddr,
-		"http_port":          *flagHTTPListenAddr,
-		"workers":            strconv.Itoa(*flagWorkers),
+		"database_directory": StorageDir,
+		"redis_port":         RESPListenAddr,
+		"http_port":          HTTPListenAddr,
+		"workers":            strconv.Itoa(Workers),
 	}
 
 	c.WriteArray(len(info))

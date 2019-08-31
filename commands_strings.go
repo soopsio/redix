@@ -1,14 +1,14 @@
 // Copyright 2018 The Redix Authors. All rights reserved.
 // Use of this source code is governed by a Apache 2.0
 // license that can be found in the LICENSE file.
-package main
+package redix
 
 import (
 	"fmt"
 	"regexp"
 	"strconv"
 
-	"github.com/alash3al/redix/kvstore"
+	"github.com/soopsio/redix/kvstore"
 )
 
 // setCommand - SET <key> <value> [<TTL "millisecond">]
@@ -30,7 +30,7 @@ func setCommand(c Context) {
 		ttlVal = 0
 	}
 
-	// if *flagACK {
+	// if ACK {
 	if err := c.db.Set(k, v, ttlVal); err != nil {
 		c.WriteError(err.Error())
 		return

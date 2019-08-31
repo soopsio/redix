@@ -1,7 +1,7 @@
 // Copyright 2018 The Redix Authors. All rights reserved.
 // Use of this source code is governed by a Apache 2.0
 // license that can be found in the LICENSE file.
-package main
+package redix
 
 import (
 	"errors"
@@ -10,11 +10,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/alash3al/redix/kvstore"
-	"github.com/alash3al/redix/kvstore/badgerdb"
-	"github.com/alash3al/redix/kvstore/boltdb"
-	"github.com/alash3al/redix/kvstore/leveldb"
-	"github.com/alash3al/redix/kvstore/null"
+	"github.com/soopsio/redix/kvstore"
+	"github.com/soopsio/redix/kvstore/badgerdb"
+	"github.com/soopsio/redix/kvstore/boltdb"
+	"github.com/soopsio/redix/kvstore/leveldb"
+	"github.com/soopsio/redix/kvstore/null"
 )
 
 // selectDB - load/fetches the requested db
@@ -35,8 +35,8 @@ func selectDB(n string) (db kvstore.DB, err error) {
 
 // openDB - initialize a db in the specified path and engine
 func openDB(n string) (kvstore.DB, error) {
-	engine := *flagEngine
-	dbpath := *flagStorageDir
+	engine := Engine
+	dbpath := StorageDir
 
 	switch strings.ToLower(engine) {
 	default:
@@ -66,9 +66,9 @@ func flushDB(n string) {
 
 // flushall clear all databases
 func flushall() {
-	rmdir(*flagStorageDir)
+	rmdir(StorageDir)
 	databases = new(sync.Map)
-	os.MkdirAll(*flagStorageDir, 0755)
+	os.MkdirAll(StorageDir, 0755)
 }
 
 // returns a unique string
@@ -82,8 +82,8 @@ func getUniqueInt() int64 {
 }
 
 func getEngineDirectory() string {
-	engine := *flagEngine
-	dbpath := *flagStorageDir
+	engine := Engine
+	dbpath := StorageDir
 
 	switch strings.ToLower(engine) {
 	default:

@@ -6,7 +6,7 @@
 package null
 
 import (
-	"github.com/alash3al/redix/kvstore"
+	"github.com/soopsio/redix/kvstore"
 )
 
 // Null - represents a Null db implementation
